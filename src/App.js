@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Searchbar from './components/Searchbar/Searchbar';
+import Button from './components/Button/Button';
+import ImageGallery from './components/ImageGallery/ImageGallery';
 
 
 class App extends Component {
@@ -40,19 +42,15 @@ class App extends Component {
 
   render() {
     const { hits, isLoading } = this.state;
+    
     return <div>
       <Searchbar onSubmit={this.onChangeQuery}/>
-      
-      <ul className="ImageGallery">
-        {hits.map(({ id, webformatURL, largeImageURL }) => <li key={id}>
-         <a href={webformatURL}><img src={largeImageURL} alt=''></img></a>
-  </li>)}
-      </ul>
+      <ImageGallery hits={hits} />
 
       {isLoading && <h1>Завантаження...</h1>}
       
       {hits.length > 0 && !isLoading &&
-        <button type='button' onClick={this.fetchHits}>Load more</button>
+        <Button onButton={this.fetchHits}/>
     }
       
     </div>;
