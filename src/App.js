@@ -6,6 +6,8 @@ import Searchbar from './components/Searchbar/Searchbar';
 import Button from './components/Button/Button';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Modal from './components/Modal/Modal';
+import LoaderSpiner from './components/Loader/Loader';
+import Section from './components/Section/Section';
 
 class App extends Component {
   state = {
@@ -28,6 +30,14 @@ class App extends Component {
   )
     this.onToggleModal();
   }
+
+  scrolImages = () => {
+     window.scrollBy({
+  top: document.documentElement.clientHeight - 100,
+  behavior: 'smooth',
+});
+  }
+ 
  
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
@@ -50,7 +60,9 @@ class App extends Component {
           hits: [...prevState.hits, ...response.data.hits],
           currentPage: prevState.currentPage + 1,
         }))
-      }).finally(() => this.setState({isLoading: false}));
+      }).finally(() => this.setState({ isLoading: false }));
+    
+    //this.scrolImages();
   }
   
 
@@ -58,19 +70,19 @@ class App extends Component {
     const { hits, isLoading, showModal, largeImageURL } = this.state;
 
     return <div>
-     
-      {showModal && <Modal onClickModal={this.onToggleModal} largeImageURL={largeImageURL} />}
- 
-
+      <Section>
+        {showModal && <Modal onClickModal={this.onToggleModal} largeImageURL={largeImageURL} />}
 
       <Searchbar onSubmit={this.onChangeQuery}/>
       <ImageGallery hits={hits} clickOpenModal={this.clickOpenModal} />
 
-      {isLoading && <h1>Завантаження...</h1>}
+      {isLoading && <LoaderSpiner/>}
       
       {hits.length > 0 && !isLoading &&
-        <Button onButton={this.fetchHits}/>
+          <Button onButton={this.fetchHits} onScrol={ this.scrolImages()}/>
     }
+      </Section>
+      
       
     </div>;
   }
