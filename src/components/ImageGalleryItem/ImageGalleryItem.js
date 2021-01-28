@@ -1,7 +1,8 @@
 import s from './ImageGalleryItem.module.css';
-const ImageGalleryItem = ({ id, webformatURL, largeImageURL }) => (
-    <li className={s.ImageGalleryItem} key={id}>
-         <a href={webformatURL}><img className={s.ImageGalleryItemImage} src={largeImageURL} alt=''/></a>
+
+const ImageGalleryItem = ({ webformatURL, largeImageURL, clickOpenModal }) => (
+    <li className={s.ImageGalleryItem} >
+        <img className={s.ImageGalleryItemImage} src={webformatURL} data-source={largeImageURL} onClick={clickOpenModal} alt=''/>
   </li>
 );
 

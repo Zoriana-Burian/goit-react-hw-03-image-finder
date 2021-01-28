@@ -5,7 +5,7 @@ import axios from 'axios';
 import Searchbar from './components/Searchbar/Searchbar';
 import Button from './components/Button/Button';
 import ImageGallery from './components/ImageGallery/ImageGallery';
-
+import Modal from './components/Modal/Modal';
 
 class App extends Component {
   state = {
@@ -13,7 +13,21 @@ class App extends Component {
     currentPage: 1,
     searchQuery: '',
     isLoading: false,
+    showModal: false,
   };
+
+  onToggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    })); 
+  }
+
+  clickOpenModal = e => {
+    this.setState({
+      largeImageURL: e.target.dataset.source}
+  )
+    this.onToggleModal();
+  }
  
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
@@ -41,11 +55,16 @@ class App extends Component {
   
 
   render() {
-    const { hits, isLoading } = this.state;
-    
+    const { hits, isLoading, showModal, largeImageURL } = this.state;
+
     return <div>
+     
+      {showModal && <Modal onClickModal={this.onToggleModal} largeImageURL={largeImageURL} />}
+ 
+
+
       <Searchbar onSubmit={this.onChangeQuery}/>
-      <ImageGallery hits={hits} />
+      <ImageGallery hits={hits} clickOpenModal={this.clickOpenModal} />
 
       {isLoading && <h1>Завантаження...</h1>}
       
