@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import s from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-const modalRoot = document.querySelector('#modal-root')
+const modalRoot = document.querySelector('#modal-root');
 
 
 class Modal extends Component {
@@ -27,7 +27,7 @@ class Modal extends Component {
     render() {
         return createPortal(
             <div className={s.Overlay} onClick={this.handleBackdrop}>
-                <div className={s.Modal}><img src={this.props.largeImageURL} alt='' /></div>
+                <div><img className={s.Modal} src={this.props.largeImageURL} alt='' /></div>
             </div>,
             modalRoot
         );
@@ -35,7 +35,7 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-    toogleModal: PropTypes.func,
+    onClickModal: PropTypes.func.isRequired,
 }
 
 export default Modal;
